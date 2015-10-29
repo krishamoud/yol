@@ -20,17 +20,22 @@ Home = React.createClass({
     Questions.update({_id}, {$set: { affirmative: true}})
     Meteor.call("repopulate")
   },
+  createQuestion(){
+    console.log("hi");
+  },
   renderCards() {
-    return this.data.users
-      .filter((user) =>  user.affirmative != true)
-      .map((card) => {
-        return <Card
-          key={card._id}
-          card={card}
-          remove={ () => this.removeCard(card._id)}
-          setAffirmative={ () => this.setAffirmative(card._id)}
-        />
-    })
+    return (
+      this.data.users
+        .filter((user) =>  user.affirmative != true)
+        .map((card) => {
+          return <Card
+            key={card._id}
+            card={card}
+            remove={ () => this.removeCard(card._id)}
+            setAffirmative={ () => this.setAffirmative(card._id)}
+          />
+      })
+    );
   },
   render() {
     if (this.data.loading) {

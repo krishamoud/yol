@@ -31,6 +31,9 @@ Register = React.createClass({
                 <input type="email" id="email" placeholder="Email" ng-model="data.email" />
               </label>
               <label className="item item-input">
+                <input type="text" id="phonenumber" placeholder="Phone Number" ng-model="data.phonenumber" />
+              </label>
+              <label className="item item-input">
                 <input type="password" id="password" placeholder="Password" ng-model="data.password" />
               </label>
             </div>
