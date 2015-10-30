@@ -27,6 +27,14 @@ Backdrop = React.createClass({
 
 
 QuestionForm = React.createClass({
+  mixins: [ReactMeteorData],
+  getMeteorData(){
+    const handle = Meteor.subscribe("userFriends");
+    return {
+      ready: handle.ready(),
+      user: Meteor.user(),
+    }
+  },
   getInitialState() {
     return {
       friendList: false,
@@ -41,8 +49,25 @@ QuestionForm = React.createClass({
     const q = this.state.question;
     this.setState({friendList:false, question:q});
   },
+  renderFriends(){
+    const user = this.data.user;
+    if(this.data.ready){
+      return user.friends.map((friend) => {
+        return (
+          <div className="item item-button-right">
+            {friend.profile.name}
+            <button className="button button-positive">
+              <i className="icon ion-ios-telephone"></i>
+            </button>
+          </div>
+        )
+      });
+    } else {
+      return <h1>Loading...</h1>
+    }
+
+  },
   render() {
-    console.log(navigator);
     return (
       <div className="list">
         <label className="item item-input">
@@ -54,6 +79,11 @@ QuestionForm = React.createClass({
 
         }
         </label>
+        <div className="list">
+          {
+            this.renderFriends()
+          }
+        </div>
         <div className="padding">
             {
               this.state.friendList ?

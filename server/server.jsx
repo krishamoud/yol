@@ -2,6 +2,10 @@ Meteor.publish("questions", function() {
   return Questions.find()
 })
 
+Meteor.publish("userFriends", function(){
+  return Meteor.users.find({_id:this.userId}, {friends:1});
+})
+
 populate = function() {
   while (Questions.find().count() < 10) {
     Questions.insert({
@@ -13,6 +17,13 @@ populate = function() {
 }
 
 Meteor.startup(function() {
+  var users = Meteor.users.find().fetch();
+  users.forEach(function(user){
+    if(!user.friends){
+      Meteor.users.update({_id:user._id}, {$set:{friends:[]}});
+    }
+  })
+
   populate()
 })
 
